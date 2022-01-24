@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_learn/HomeVC.dart';
 import 'package:flutter_learn/LoginVC.dart';
 
+import 'CounterVC.dart';
 import 'MessagesVC.dart';
 import 'UserVC.dart';
 
@@ -17,7 +18,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: UserVC()
+      home: CounterVC()
     );
   }
 }
