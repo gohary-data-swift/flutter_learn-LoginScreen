@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_learn/HomeVC.dart';
-import 'package:flutter_learn/LoginVC.dart';
+import 'package:flutter_learn/modules/home/HomeVC.dart';
+import 'package:flutter_learn/modules/login/LoginVC.dart';
 
-import 'BMICalculatorVC.dart';
-import 'CounterVC.dart';
-import 'MessagesVC.dart';
-import 'UserVC.dart';
+import 'layout/home_layout.dart';
+import 'modules/bmi/BMICalculatorVC.dart';
+import 'modules/bmi_result/BMI_resulte.dart';
+import 'modules/counter/CounterVC.dart';
+import 'modules/messeges/MessagesVC.dart';
+import 'modules/users/UserVC.dart';
 
 void main() {
   runApp(const MyApp());
@@ -19,7 +21,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: BMICalculator()
+      home: HomeLayout()
     );
   }
 }

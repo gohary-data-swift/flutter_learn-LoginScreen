@@ -1,20 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-class userModel {
-  final int id;
-  final String name;
-  final String phone;
-
-  userModel({
-    required this.id,
-    required this.name,
-    required this.phone,
-  });
-}
+import 'package:flutter_learn/models/user_model.dart';
 
 class UserVC extends StatelessWidget {
-//  const UserVC({Key? key}) : super(key: key);
 
   List<userModel> users = [
     userModel(id: 1, name: 'ahmed elgohary', phone: '201026668121'),

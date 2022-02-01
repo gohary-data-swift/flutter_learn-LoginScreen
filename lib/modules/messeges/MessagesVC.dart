@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class MessagesVC extends StatelessWidget {
-  const MessagesVC({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
