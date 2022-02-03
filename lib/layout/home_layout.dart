@@ -48,11 +48,8 @@ class _HomeLayoutState extends State<HomeLayout> {
         onPressed: () {
           if (isBottonSheet == true) {
             if (fialdkey.currentState!.validate()) {
-             insertToDatabase(
-                 taskController.text,
-                 timeController.text,
-                 dateController.text
-             );
+              insertToDatabase(taskController.text, timeController.text,
+                  dateController.text);
               Navigator.pop(context);
               isBottonSheet = false;
               setState(() {
@@ -185,7 +182,7 @@ class _HomeLayoutState extends State<HomeLayout> {
   }
 
   Future insertToDatabase(
-    @required String  title,
+    @required String title,
     @required String time,
     @required String date,
   ) async {
