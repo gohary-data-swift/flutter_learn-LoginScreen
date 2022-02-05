@@ -20,3 +20,38 @@ Widget defaultButton({
             style: TextStyle(color: Colors.white),
           )),
     );
+
+Widget tasksBuild(Map model) => Padding(
+      padding: const EdgeInsets.all(20.0),
+      child: Row(
+        children: [
+          CircleAvatar(
+            radius: 40,
+            child: Text(
+              '${model['time']}',
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+            ),
+          ),
+          SizedBox(
+            width: 20,
+          ),
+          Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                '${model['title']}',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Text(
+                '${model['date']}',
+                style: TextStyle(color: Colors.grey, fontSize: 15),
+              ),
+            ],
+          )
+        ],
+      ),
+    );

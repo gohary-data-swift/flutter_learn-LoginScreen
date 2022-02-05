@@ -1,8 +1,10 @@
+import 'package:conditional_builder/conditional_builder.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_learn/modules/archive_tasks/archiveTasks.dart';
 import 'package:flutter_learn/modules/done_tasks/DoneTasks.dart';
 import 'package:flutter_learn/modules/new_tasks/NewTasks.dart';
+import 'package:flutter_learn/shard/components/constants.dart';
 import 'package:intl/intl.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -58,90 +60,99 @@ class _HomeLayoutState extends State<HomeLayout> {
             }
             ;
           } else {
-            scaffoldkey.currentState?.showBottomSheet((context) => Container(
-                  color: Colors.grey[100],
-                  padding: EdgeInsets.all(20.0),
-                  child: Form(
-                    key: fialdkey,
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        TextFormField(
-                            controller: taskController,
-                            keyboardType: TextInputType.emailAddress,
-                            onChanged: (String value) {},
-                            decoration: InputDecoration(
-                                prefixIcon: Icon(Icons.title),
-                                labelText: 'Task title',
-                                border: OutlineInputBorder()),
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                return 'Task field is required';
-                              }
-                              return null;
-                            }),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        TextFormField(
-                            onTap: () {
-                              FocusScope.of(context)
-                                  .requestFocus(new FocusNode());
-                              showTimePicker(
+            scaffoldkey.currentState
+                ?.showBottomSheet((context) => Container(
+                      color: Colors.grey[100],
+                      padding: EdgeInsets.all(20.0),
+                      child: Form(
+                        key: fialdkey,
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            TextFormField(
+                                controller: taskController,
+                                keyboardType: TextInputType.emailAddress,
+                                onChanged: (String value) {},
+                                decoration: InputDecoration(
+                                    prefixIcon: Icon(Icons.title),
+                                    labelText: 'Task title',
+                                    border: OutlineInputBorder()),
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return 'Task field is required';
+                                  }
+                                  return null;
+                                }),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            TextFormField(
+                                onTap: () {
+                                  FocusScope.of(context)
+                                      .requestFocus(new FocusNode());
+                                  showTimePicker(
+                                          context: context,
+                                          initialTime: TimeOfDay.now())
+                                      .then((value) {
+                                    print(value?.format(context).toString());
+                                    timeController.text =
+                                        value!.format(context).toString();
+                                  });
+                                },
+                                controller: timeController,
+                                keyboardType: TextInputType.datetime,
+                                onChanged: (String value) {},
+                                decoration: InputDecoration(
+                                    prefixIcon: Icon(Icons.watch_later),
+                                    labelText: 'Task date',
+                                    border: OutlineInputBorder()),
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return 'Time field is required';
+                                  }
+                                  return null;
+                                }),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            TextFormField(
+                                onTap: () async {
+                                  FocusScope.of(context)
+                                      .requestFocus(new FocusNode());
+                                  DateTime? picked = await showDatePicker(
                                       context: context,
-                                      initialTime: TimeOfDay.now())
-                                  .then((value) {
-                                print(value?.format(context).toString());
-                                timeController.text =
-                                    value!.format(context).toString();
-                              });
-                            },
-                            controller: timeController,
-                            keyboardType: TextInputType.datetime,
-                            onChanged: (String value) {},
-                            decoration: InputDecoration(
-                                prefixIcon: Icon(Icons.watch_later),
-                                labelText: 'Task date',
-                                border: OutlineInputBorder()),
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                return 'Time field is required';
-                              }
-                              return null;
-                            }),
-                        SizedBox(
-                          height: 20,
+                                      initialDate: new DateTime.now(),
+                                      firstDate: new DateTime(2016),
+                                      lastDate: new DateTime(2030));
+                                  if (picked != null)
+                                    setState(() => dateController.text =
+                                        DateFormat.yMMMd().format(picked));
+                                },
+                                controller: dateController,
+                                keyboardType: TextInputType.datetime,
+                                onChanged: (String value) {},
+                                decoration: InputDecoration(
+                                    prefixIcon: Icon(Icons.calendar_today),
+                                    labelText: 'Task date',
+                                    border: OutlineInputBorder()),
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return 'Date field is required';
+                                  }
+                                  return null;
+                                })
+                          ],
                         ),
-                        TextFormField(
-                            onTap: () async {
-                              FocusScope.of(context)
-                                  .requestFocus(new FocusNode());
-                              DateTime? picked = await showDatePicker(
-                                  context: context,
-                                  initialDate: new DateTime.now(),
-                                  firstDate: new DateTime(2016),
-                                  lastDate: new DateTime(2030));
-                              if (picked != null)
-                                setState(() => dateController.text =
-                                    DateFormat.yMMMd().format(picked));
-                            },
-                            controller: dateController,
-                            keyboardType: TextInputType.datetime,
-                            onChanged: (String value) {},
-                            decoration: InputDecoration(
-                                prefixIcon: Icon(Icons.calendar_today),
-                                labelText: 'Task date',
-                                border: OutlineInputBorder()),
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                return 'Date field is required';
-                              }
-                              return null;
-                            })
-                      ],
-                    ),
-                  ),
-                ));
+                      ),
+                    ))
+                .closed
+                .then((value) {
+              // closed botton sheet manual
+              isBottonSheet = false;
+              setState(() {
+                flotingIcon = Icons.edit;
+              });
+            });
             isBottonSheet = true;
             setState(() {
               flotingIcon = Icons.add;
@@ -166,7 +177,11 @@ class _HomeLayoutState extends State<HomeLayout> {
               icon: Icon(Icons.archive_outlined), label: 'Archive'),
         ],
       ),
-      body: screens[currentIndex],
+      body: ConditionalBuilder(
+        condition: myTaskes.length > 0,
+        builder: (context) => screens[currentIndex],
+        fallback: (context) => Center(child: CircularProgressIndicator()),
+      ),
     );
   }
 
@@ -177,6 +192,12 @@ class _HomeLayoutState extends State<HomeLayout> {
       await database.execute(
           'CREATE TABLE Test (id INTEGER PRIMARY KEY, title TEXT, date TEXT, time TEXT, status TEXT)');
     }, onOpen: (database) {
+      getDataFromDatabase(database).then((value) {
+        myTaskes = value;
+        print(myTaskes);
+      }).catchError((error) {
+        print(error.toString());
+      });
       print('Database opend');
     });
   }
@@ -191,11 +212,21 @@ class _HomeLayoutState extends State<HomeLayout> {
           .rawInsert(
               'INSERT INTO Test(title, date, time, status) VALUES("$title", "$date", "$time", "New")')
           .then((value) {
+        getDataFromDatabase(database).then((value) {
+          myTaskes = value;
+          print(myTaskes);
+        }).catchError((error) {
+          print(error.toString());
+        });
         print('$value insert successfuly');
       }).catchError((error) {
         print('Error then insert new task ${error.toString()}');
       });
       return null;
     });
+  }
+
+  Future getDataFromDatabase(database) async {
+    return await database.rawQuery('SELECT * FROM Test');
   }
 }
